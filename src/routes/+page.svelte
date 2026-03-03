@@ -6,25 +6,6 @@
 </script>
 
 
-<nav>
-    <ul>
-        <li>
-            <a class="current" href="./">Home</a>
-        </li>
-        <li>
-            <a href="projects">Projects</a>
-        </li>
-        <li>
-            <a href="contact">Contact</a>
-        </li>
-        <li>
-            <a href="https://github.com/jesschnn" target="blank">GitHub Profile</a>
-        </li>
-        <li>
-            <a href="resume">Resume</a>
-        </li>
-    </ul>
-</nav>
 
 <h1>Jessica Chen</h1>
 
@@ -75,7 +56,7 @@
 
     .reading {
         flex: 0.75;
-        background-color: oklch(from var(--color-accent) 95% 5% h);
+        background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
         padding: 1em;
     }
 </style>

@@ -7,25 +7,6 @@
   import Project from "$lib/Project.svelte";
 </script>
 
-<nav>
-    <ul>
-        <li>
-            <a href="./">Home</a>
-        </li>
-        <li>
-            <a class="current" href="projects">Projects</a>
-        </li>
-        <li>
-            <a href="contact">Contact</a>
-        </li>
-        <li>
-            <a href="https://github.com/jesschnn" target="blank">GitHub Profile</a>
-        </li>
-        <li>
-            <a href="resume">Resume</a>
-        </li>
-    </ul>
-</nav>
 <h1>{projects.length} Projects</h1>
 <hr>
 
