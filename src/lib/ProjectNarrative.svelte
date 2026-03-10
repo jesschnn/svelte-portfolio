@@ -5,6 +5,8 @@
     let sorted_projects = projects.sort((a, b) => a.year - b.year);
     let progressPerProject = 100 / sorted_projects.length;
     $: activeProjectIdx = Math.min(sorted_projects.length-1, Math.floor(scrollyProgress / progressPerProject));
+
+    import { base } from "$app/paths";
 </script>
 
 <div class="scrolly-wrapper">
@@ -23,9 +25,8 @@
                 <!-- Visualizations here (these will stay sticky) -->
                 <div class="project-detail">
                     <h3> {sorted_projects[activeProjectIdx].year} </h3>
-                    <img src={sorted_projects[activeProjectIdx].image} 
-                        alt="Image of {sorted_projects[activeProjectIdx].title}">
-
+                    <img src={base + sorted_projects[activeProjectIdx].image} 
+                        alt="Image of {sorted_projects[activeProjectIdx].title}"> 
                 </div>
                 
             </svelte:fragment>
