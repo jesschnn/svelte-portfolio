@@ -25,7 +25,9 @@
                 <!-- Visualizations here (these will stay sticky) -->
                 <div class="project-detail">
                     <h3> {sorted_projects[activeProjectIdx].year} </h3>
-                    <img src={base + sorted_projects[activeProjectIdx].image} 
+                    <img src={base[-1] == "/" ?
+                            base + sorted_projects[activeProjectIdx].image :
+                            base + "/" + sorted_projects[activeProjectIdx].image} 
                         alt="Image of {sorted_projects[activeProjectIdx].title}"> 
                 </div>
                 
