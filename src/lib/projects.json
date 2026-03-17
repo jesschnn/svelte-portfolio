@@ -1,7 +1,7 @@
 [
   {
     "title": "Purrfect Match: AI Adoption",
-    "year": 2024,
+    "year": 2023,
     "image": "images/proj1.jpeg",
     "description": "An advanced neural network designed to match rescue cats with compatible owners based on personality traits and living environments. It significantly reduced shelter return rates by 40% in its first year.",
     "story": "I started this after my own cat, Biscuit, spent three months in a shelter because people didn't realize he was a 'high-energy' breed."
@@ -36,14 +36,14 @@
   },
   {
     "title": "The Great Catnip Study",
-    "year": 2025,
+    "year": 2024,
     "image": "images/proj6.jpeg",
     "description": "A crowdsourced data project mapping the genetic response to Nepeta cataria across different feline breeds, visualized through interactive global heatmaps.",
     "story": "A collaborative effort with 500 volunteer cat owners to see if breed truly dictates the 'nip' response."
   },
   {
     "title": "Feline Fluid Dynamics",
-    "year": 2026,
+    "year": 2024,
     "image": "images/proj7.jpeg",
     "description": "A physics simulation exploring the hypothesis that cats are technically liquid, modeling their ability to fit into containers of any shape or size.",
     "story": "Inspired by the Ig Nobel Prize-winning research on the rheology of cats."

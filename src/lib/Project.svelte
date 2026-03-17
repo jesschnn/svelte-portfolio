@@ -6,7 +6,7 @@
 <article>
     <h2>{data.title}</h2>
     <img src={base[-1] == "/" ? (base + data.image) : (base + "/" + data.image)} alt="">
-    <p>{data.description}</p>
+    <p>{data.year}: {data.description}</p>
 </article>
 
 
