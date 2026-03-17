@@ -30,7 +30,7 @@
         d3.select(xAxis).call(
             d3.axisBottom(xScale)
                 .tickFormat(d => Number.isInteger(d) ? d : "")
-                .ticks(5)
+                .tickValues(d3.range(0, d3.max(data, d => d.value) + 50, 50))
         );
     }
     
@@ -97,9 +97,9 @@
                 />
                 <!-- leader line -->
                 <line
-                    x1 = {xScale(maxBar.value) / 2}
+                    x1 = {xScale(maxBar.value) / 2 + 80}
                     y1 = {yScale(maxBar.label) + yScale.bandwidth()}
-                    x2 = {xScale(maxBar.value) / 2}
+                    x2 = {xScale(maxBar.value) / 2 + 80}
                     y2 = {yScale(maxBar.label) + yScale.bandwidth() + 15}
                     
                     stroke="currentColor"
@@ -107,7 +107,7 @@
                 />
                 <!-- annotation text at end of leader line -->
                 <text
-                    x = {xScale(maxBar.value) / 2 - 40}
+                    x = {xScale(maxBar.value) / 2 + 30}
                     y = {yScale(maxBar.label) + yScale.bandwidth() + 25}
                     class="annotation">
                     Most lines of code
