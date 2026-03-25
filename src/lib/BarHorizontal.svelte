@@ -1,11 +1,12 @@
 <script>
     import * as d3 from 'd3';
 
-    let width = 400;
+    let width = 600;
     let height = 300;
     export let data = [];
+    export let title = "";
 
-    let margin = { top: 40, right: 85, bottom: 80, left: 60 };
+    let margin = { top: 20, right: 0, bottom: 10, left: 20 };
     let innerWidth  = width  - margin.left - margin.right;
     let innerHeight = height - margin.top  - margin.bottom;
 
@@ -26,13 +27,13 @@
 
     // swapped xAxis and yAxis d3.selects, swap axisLeft and axisBottom
     $: if (xAxis && yAxis) {
-        d3.select(yAxis).call(d3.axisLeft(yScale));
         d3.select(xAxis).call(
             d3.axisBottom(xScale)
-                .tickFormat(d => Number.isInteger(d) ? d : "")
-                .tickValues(d3.range(0, d3.max(data, d => d.value) + 50, 50))
+            .ticks(Math.min(d3.max(data, d => d.value), 10))
         );
+        d3.select(yAxis).call(d3.axisLeft(yScale));
     }
+
     
     $: maxBar = d3.greatest(data, d => d.value);
 </script>
@@ -47,12 +48,12 @@
             y={margin.top / 2}
             text-anchor="middle"
             class="chart-title">
-            Lines of Code by Language
+            {title}
         </text>
         <!-- x-axis label -->
         <text
-            x={innerWidth / 2 + 50}
-            y={innerHeight + margin.bottom}
+            x={innerWidth / 2 + 40}
+            y={innerHeight + margin.bottom + 60}
             text-anchor="middle"
             class="axis-label">
             Lines of Code
@@ -60,8 +61,8 @@
 
         <!-- y-axis label -->
         <text
-            x={-(innerHeight / 2) - 40}
-            y={-margin.left + 60}
+            x={-(innerHeight / 2) - 30}
+            y={-margin.left - 30}
             text-anchor="middle"
             transform="rotate(-90)"
             class="axis-label">
@@ -95,20 +96,22 @@
                     stroke="currentColor"
                     stroke-width="2"
                 />
-                <!-- leader line -->
-                <line
-                    x1 = {xScale(maxBar.value) / 2 + 80}
-                    y1 = {yScale(maxBar.label) + yScale.bandwidth()}
-                    x2 = {xScale(maxBar.value) / 2 + 80}
-                    y2 = {yScale(maxBar.label) + yScale.bandwidth() + 15}
-                    
-                    stroke="currentColor"
-                    stroke-width="1"
-                />
+                <!-- leader line removed for lab 7 
+                    <line
+                        x1 = {xScale(maxBar.value) / 2 + 80}
+                        y1 = {yScale(maxBar.label) + yScale.bandwidth()}
+                        x2 = {xScale(maxBar.value) / 2 + 80}
+                        y2 = {yScale(maxBar.label) + yScale.bandwidth() + 15}
+                        
+                        stroke="currentColor"
+                        stroke-width="1"
+                    />
+                -->
                 <!-- annotation text at end of leader line -->
                 <text
-                    x = {xScale(maxBar.value) / 2 + 30}
-                    y = {yScale(maxBar.label) + yScale.bandwidth() + 25}
+                    x = {xScale(maxBar.value) + 5}
+                    y = {yScale(maxBar.label) + yScale.bandwidth()/2 + 5}
+                    text-anchor = "start"
                     class="annotation">
                     Most lines of code
                 </text>
@@ -128,21 +131,23 @@
 
 <style>
     svg {
-        max-width: 80%;
-        height: auto;
+        max-width: 100%;
+        width: 100%;
+        height: 200px;
         overflow: visible;
         margin: 0;
     }
 
-
     .container {
         display: flex;
         align-items: center;
-        margin-top: 1em;
+        margin-top: 0em;
+        overflow: visible;
     }
 
     .legend {
         flex: 1;
+        font-size: 80%;
     }
 
     .swatch {
@@ -158,19 +163,23 @@
     }
 
     .chart-title {
-        font-size: 1em;
+        font-size: 1.8em;
         font-weight: bold;
         fill: currentColor;
     }
 
     .axis-label {
-        font-size: 0.8em;
+        font-size: 1.2em;
         fill: currentColor;
     }
 
     .annotation {
-        font-size: 0.7em;
         fill: currentColor;
         font-style: italic;
+        margin-right: 1em;
+    }
+
+    g {
+        font-size: 110%;
     }
 </style>
