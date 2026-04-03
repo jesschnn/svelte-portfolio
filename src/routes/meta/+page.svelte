@@ -20,7 +20,7 @@
     let width = 1000, height = 400;
     let xAxis, yAxis;
     let yAxisGridlines;
-    let margin = { top: 20, right: 20, bottom: 0, left: 0 };
+    let margin = { top: 0, right: 0, bottom: 0, left: 0 };
     let usableArea = {
         top: margin.top,
         right: width - margin.right,
