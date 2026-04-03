@@ -135,7 +135,7 @@
         width: 100%;
         height: 200px;
         overflow: visible;
-        margin: 0;
+        margin-bottom: 2em;
     }
 
     .container {

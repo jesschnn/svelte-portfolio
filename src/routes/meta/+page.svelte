@@ -7,6 +7,8 @@
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
     import BarHorizontal from '$lib/BarHorizontal.svelte';
+    import LineChart from '$lib/LineChart.svelte';
+
     import {
         computePosition,
         autoPlacement,
@@ -63,7 +65,7 @@
 
     /* new definitions for lab 7 */
     // 1.
-    $: selectedLines = (clickedCommits.length > 0 ? clickedCommits.flatMap(d => d.lines) : locData);
+    // $: selectedLines = (clickedCommits.length > 0 ? clickedCommits.flatMap(d => d.lines) : locData);
 
     //2.
     $: selectedCounts = d3.rollup(
@@ -77,7 +79,7 @@
 
     //4.
     $: locBarData = allTypes.map(type =>  ({ label: String(type), value: selectedCounts.get(type) || 0 }));
-    $: title = clickedCommits.length > 0 ? "Lines of Code: Selected commits" : "Lines of Code: Website Breakdown";
+    $: title = selectedCommits.length > 0 ? `Lines of Code: ${selectedCommits.length} Selected commits` : "Lines of Code: Website Breakdown";
     
     $: [minDate, maxDate] = d3.extent(commits.map(d => d.date));
     $: maxDatePlusOne = new Date(maxDate);
@@ -145,7 +147,58 @@
         }
     }
 
-    
+    // start of lab 8 
+    let svg; 
+    $: if (svg && usableArea) {
+        d3.select(svg).call(d3.brush()
+            .extent([[usableArea.left, usableArea.top], [usableArea.right, usableArea.bottom]])
+            .on("start brush end", brushed)); 
+        d3.select(svg).selectAll(".dots, .overlay ~ *").raise();
+    }
+
+    $: brushSelection = null;
+    function brushed (evt) {
+        brushSelection = evt.selection;
+    }
+
+    function isCommitBrushed (commit) {
+        if (!brushSelection) {
+            return false;
+        }
+        // TODO return true if commit is within brushSelection
+        // and false if not
+        let min = {x: brushSelection[0][0], y: brushSelection[0][1]};
+        let max = {x: brushSelection[1][0], y: brushSelection[1][1]};
+        let x = xScale(commit.date);
+        let y = yScale(commit.hourFrac);
+        return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
+    }
+    $: brushedCommits = brushSelection ? commits.filter(isCommitBrushed) : [];
+    $: selectedCommits = Array.from(new Set([...clickedCommits, ...brushedCommits]));
+    $: selectedLines = (selectedCommits.length > 0 ? selectedCommits : commits).flatMap(d => d.lines);
+
+    let linesByDate = [];
+    $: {
+        // 1. Get the count for each date in the data
+        const rolled = d3.rollups(
+            locData,
+            v => v.length,
+            d => d3.timeDay.floor(d.datetime)
+        ).map(([date, count]) => ({ date, count }));
+
+        // 2. Get an array of all days covered by the data
+        const [minDate, maxDate] = d3.extent(rolled, d => d.date);
+        const allDays = d3.timeDays(minDate, d3.timeDay.offset(maxDate, 1));
+
+        // 3. Build linesByDate by filling all undefined dates with 0 counts
+        linesByDate = allDays.map(date => ({
+            date,
+            count: rolled.find(d => d.date.getTime() === date.getTime())?.count ?? 0
+        }));
+
+        // console.log(linesByDate);
+    }
+
 
 </script>
 
@@ -157,7 +210,7 @@
     <div class="toolplot">
         <div class="scatterplot">
             <h3 class="scattertitle">Commits by time of day</h3>
-            <svg viewBox="0 0 {width} {height}">
+            <svg viewBox="0 0 {width} {height}" bind:this={svg}>
                 <!-- gridlines -->
                 <g class="gridlines" transform="translate({usableArea.left}, 0)" bind:this={yAxisGridlines} />
 
@@ -172,7 +225,7 @@
                         on:mouseenter={evt => dotInteraction(index, evt)}
                         on:mouseleave={evt => dotInteraction(index, evt)}
                         on:click={ evt => dotInteraction(index, evt) }
-                        class:selected={ clickedCommits.includes(commit) }
+                        class:selected={ selectedCommits.includes(commit) }
                         
                         cx={ xScale(commit.date) }
                         cy={ yScale(commit.hourFrac) }
@@ -202,6 +255,7 @@
         </dl>
     </div>
     <BarHorizontal data={locBarData} title={title}/>
+    <LineChart data={linesByDate}/>
 </div>
 
 <style>
