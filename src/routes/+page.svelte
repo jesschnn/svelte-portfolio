@@ -35,7 +35,6 @@
     loading = false;
   });
 
-  let data = fetch("https://api.github.com/users/jesschnn");
 </script>
 
 
