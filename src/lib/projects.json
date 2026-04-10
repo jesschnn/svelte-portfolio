@@ -61,5 +61,12 @@
     "image": "images/proj9.jpeg",
     "description": "An image recognition app that identifies and catalogs the specific types of cardboard boxes cats prefer, using computer vision to measure box-to-cat ratios.",
     "story": "Final confirmation that no matter how expensive the toy is, the box it came in is always superior."
+  },
+  {
+    "title": "Bike Watching Map",
+    "year": 2026,
+    "image": "images/proj10.jpeg",
+    "description": "An immersive, interactive map visualization of bike traffic in the Boston area during different times of the day.",
+    "story": "Part of lab 9 for interactive data visualization :)"
   }
 ]

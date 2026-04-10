@@ -86,7 +86,7 @@
     <br>
 
     <div class="projects">
-        {#each projects.slice(0, 3) as p}
+        {#each projects.slice(7, 10) as p}
             <Project data={p} />
         {/each}
     </div>
